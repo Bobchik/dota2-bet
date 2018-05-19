@@ -233,7 +233,8 @@ class LobbyController extends Controller
         $dire = $players[1];
 
 
-        Storage::makeDirectory("$game_id");
+        $test = Storage::makeDirectory("$game_id");
+        dd($test);
         $room = Room::find($game_id);
         if(!isset($room))
         {
