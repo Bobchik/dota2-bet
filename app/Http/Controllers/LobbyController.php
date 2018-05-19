@@ -233,6 +233,7 @@ class LobbyController extends Controller
         $dire = $players[1];
 
 
+        Storage::makeDirectory("$game_id");
         $room = Room::find($game_id);
         if(!isset($room))
         {
@@ -246,9 +247,8 @@ class LobbyController extends Controller
             }
             $content .= "['$game_id']];module.exports.id = id;";
             // dd($content);
-            Storage::disk('bot')->makeDirectory("bot1/games/$game_id");
-            Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
-            Storage::disk('bot')->put("bot1/players.js", $content);
+//            Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
+//            Storage::disk('bot')->put("bot1/players.js", $content);
             // dd($rank);
             $allRooms = cache($rank);
 
