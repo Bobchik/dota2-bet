@@ -234,8 +234,8 @@ class LobbyController extends Controller
 
 
 //        $test = Storage::makeDirectory("$game_id");
-//        dd($test);
         $test = mkdir($_SERVER['DOCUMENT_ROOT']."/js/node-dota2/examples/bot1/games/$game_id/", "0777", true);
+        dd($test);
         $room = Room::find($game_id);
         if(!isset($room))
         {
