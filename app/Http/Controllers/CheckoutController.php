@@ -78,10 +78,10 @@ class CheckoutController extends Controller
             }
         }catch (Exception $e){
 
-            return redirect('/personal')->with('error', $e->getMessage());
+            return redirect('/profile')->with('error', $e->getMessage());
         }
 
-        return redirect('/personal')->with('success', 'Successfully purchased products!');
+        return redirect('/profile')->with('success', 'Successfully purchased products!');
 
     }
 

@@ -245,11 +245,11 @@ class LobbyController extends Controller
                 $content .= '[\''.$value['uid'] . '\',' . "'D'],";
             }
             $content .= "['$game_id']];module.exports.id = id;";
-            // dd($content);
+
             Storage::disk('bot')->makeDirectory("bot1/games/$game_id");
             Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
             Storage::disk('bot')->put("bot1/players.js", $content);
-            // dd($rank);
+
             $allRooms = cache($rank);
 
             $game = array_search($game_id, $allRooms);
@@ -274,9 +274,15 @@ class LobbyController extends Controller
 
             $bot_path = "cd "
                 . "js/node-dota2/examples/bot1 "
-                . "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
-            //. "&& node start.js >> /home/vagrant/dota2roulette/public/js/node-dota2/examples/games/$game_id/$game_id.log &";
-            exec($bot_path, $out, $err);
+		. "&& node start.js > $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
+
+		$descriptorspec = array(
+   		0 => array("pipe", "r"),
+   		1 => array("pipe", "w")
+    		);
+
+	        proc_open($bot_path, $descriptorspec, $pipes);
+		//exec($bot_path, $out, $err);
         }
         return view('lobby.start', compact('game_id', 'radiant', 'dire','bank'));
 

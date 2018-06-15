@@ -243,17 +243,17 @@ Dota2.on("practiceLobbyResponse", function(data) {
         // util.log(lobby);
     // if(lobby.game_state == 6){
                 //fs.writeFileSync("match.end", dota2._getMessageName(kMsg));
-                 var result;
-                 for (var i in lobby) {
+                     var result;
+                for (var i in lobby) {
                     if (lobby.hasOwnProperty(i) ) {
                         result += i + " " + JSON.stringify(lobby[i]) + "\n";
                     }
-                    // if (i == 'match_outcome') {
-                    //     result += i + " " + lobby[i] + " ";
-                    //     // fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                    // }
-                    fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                }
+                    if(lobby.match_outcome == 2 || lobby.match_outcome == 3){
+                        util.log(lobby_data);
+                        fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome "+lobby.match_outcome);
+                    }
+                
+    }
             // }
 
     });

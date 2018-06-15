@@ -1,0 +1,25 @@
+2018061519250915 Jun 19:26:06 - Logged on.
+15 Jun 19:26:06 -  Team: R User ID: 76561198105183102
+15 Jun 19:26:06 -  Team: D User ID: 0
+15 Jun 19:26:06 - Received servers.
+15 Jun 19:26:13 - UNHANDLED MESSAGE k_EMsgDOTAGetEventPointsResponse
+15 Jun 19:26:13 - UNHANDLED MESSAGE k_EMsgDOTAGetEventPointsResponse
+15 Jun 19:26:13 - Node-dota2 ready.
+Fr June 19:26:13 - Unhandled cache ID: 7
+15 Jun 19:26:14 - {"eresult":1}
+15 Jun 19:26:15 - Inviting user ID: 76561198105183102 Team: R
+15 Jun 19:26:15 - Inviting user ID: 0 Team: D
+15 Jun 19:26:15 - Created invitation to online user 76561198105183102
+15 Jun 19:26:58 - [Lobby_25653761893767569] neBot: ok
+15 Jun 19:26:59 - {"eresult":1}
+15 Jun 19:27:01 - UNHANDLED MESSAGE k_EMsgGCPingRequest
+15 Jun 19:27:01 - UNHANDLED MESSAGE k_EMsgGCToClientSteamDatagramTicket
+15 Jun 19:38:57 - UNHANDLED MESSAGE k_EMsgGCToClientMatchSignedOut
+15 Jun 19:38:57 - 76561198105183102 left channel Lobby_25653761893767569
+15 Jun 19:38:58 - 76561198105183102 leave lobby Lobby_25653761893767569
+15 Jun 19:38:59 - Created invitation to online user 76561198105183102
+15 Jun 19:39:25 - 76561198105183102 left channel PostGame_25653761893767569
+15 Jun 19:39:26 - 76561198105183102 leave lobby Lobby_25653761898945683
+15 Jun 19:39:26 - Created invitation to offline user 76561198105183102
+15 Jun 20:01:04 - Logged off from Steam.
+15 Jun 20:01:04 - Connection closed by server.
