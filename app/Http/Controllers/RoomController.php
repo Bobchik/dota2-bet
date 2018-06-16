@@ -39,19 +39,19 @@ class RoomController extends Controller
      //Cache::flush();
 
         $ids = cache($rank);
-        if ($ids == null){
+        if ($ids == null || array_values($ids) == null){
             $lobbies = array();
         } else {
             $lobbies = Cache::many($ids);
-            foreach ($lobbies as $key => $lobby) {
-              // dd($lobbies);
-              $players = json_decode($lobby[$key]['players'],true);
+	    foreach ($lobbies as $key => $lobby) {
+              $players = json_decode($lobby[$key]['players'], true);
               $playersCount = 0;
+
               foreach ($players as $value) {
                 if($value['uid'] != 0){
                   $playersCount++;
                 }
-            }
+              }
             $lobby[$key]['count'] = $playersCount;
 
             $lobbies[$key] = $lobby;

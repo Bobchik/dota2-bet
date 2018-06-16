@@ -180,15 +180,15 @@
 
        var timerId = setTimeout(function tick() {
            $.get(window.location.pathname + '/get', function (response) {
-               if (response.length >= 10) {
+               if (response.length >= 2) {
                    clearTimeout(timerId);
                    document.getElementById('change').setAttribute("style", "visibility: visible");
                    setTimeout(function () {
                        document.getElementById('change').setAttribute("style", "visibility: hidden");
                        setTimeout(function () {
                            window.location.href = window.location.pathname + '/start';
-                       }, 10000);
-                   }, 10000);
+                       }, 3000);
+                   }, 3000);
                }
            });
            timerId = setTimeout(tick, 500);

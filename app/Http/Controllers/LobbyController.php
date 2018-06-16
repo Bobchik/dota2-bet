@@ -251,10 +251,9 @@ class LobbyController extends Controller
             Storage::disk('bot')->put("bot1/players.js", $content);
 
             $allRooms = cache($rank);
-
             $game = array_search($game_id, $allRooms);
 
-            if($game){
+            if((int)$game >= 0){
                 unset($allRooms[$game]);
             }
 
