@@ -180,7 +180,7 @@
 
        var timerId = setTimeout(function tick() {
            $.get(window.location.pathname + '/get', function (response) {
-               if (response.length >= 2) {
+               if (response.length >= 1) {
                    clearTimeout(timerId);
                    document.getElementById('change').setAttribute("style", "visibility: visible");
                    setTimeout(function () {
@@ -191,8 +191,8 @@
                    }, 3000);
                }
            });
-           timerId = setTimeout(tick, 500);
-       }, 500);
+           timerId = setTimeout(tick, 4000);
+       }, 4000);
     };
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>

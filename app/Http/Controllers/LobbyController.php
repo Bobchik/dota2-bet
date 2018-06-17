@@ -221,7 +221,7 @@ class LobbyController extends Controller
 
     public function start($game_id)
     {
-
+//dd($_SERVER['DOCUMENT_ROOT']);
         $lobby = cache($game_id);
         $bank = $lobby[$game_id]['bank'];
         $rank = $lobby[$game_id]['rank'];
@@ -273,7 +273,7 @@ class LobbyController extends Controller
 
             $bot_path = "cd "
                 . "js/node-dota2/examples/bot1 "
-		. "&& node start.js > $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
+		. "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
 
 		$descriptorspec = array(
    		0 => array("pipe", "r"),
@@ -382,6 +382,6 @@ class LobbyController extends Controller
                 }
             }
         }
-        return view('lobby.result');
+        return view('lobby.result',['winners' => $winners]);
     }
 }
