@@ -30,7 +30,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/checkout/stripe', 'CheckoutController@postStripe');
         Route::get('/checkout/g2a', 'CheckoutController@getG2A');
         Route::post('/checkout/g2a', 'CheckoutController@postG2A');
-        Route::get('/checkout/webmoney', 'CheckoutController@getWebMonLoey');
+        Route::get('/checkout/webmoney', 'CheckoutController@getWebMoney');
         Route::get('/checkout/withdraw', function (){
            return view('checkout.withdraw');
         });

@@ -47,15 +47,7 @@ class LobbyController extends Controller
 
         $players =  Lobby::getPlayers($game_id);
         $players = array_chunk($players, count($players)/2, true);
-//        dd($players);
-        // $users = User::all('player_id')->toArray();
 
-        // for ($i=1; $i < 11; $i++) { 
-        //     $players[$i]['uid'] = $users[$i-1]['player_id'];
-        // }
-        // $lobby[$game_id]['players'] = json_encode($players);
-        // Cache::forever($game_id,$lobby[$game_id]);
-        // dd(cache($game_id));
         $radiant = $players[0];
         $dire = $players[1];
         $lobby = cache($game_id);
@@ -152,7 +144,6 @@ class LobbyController extends Controller
         $users = User::all('player_id')->toArray();
         $players = Lobby::getPlayers($game_id);
 
-//        dd($users);
         for ($i=1; $i < 11; $i++) {
             $players[$i]['uid'] = $users[$i-1]['player_id'];
             $players[$i]['bet'] = 2;
@@ -163,36 +154,9 @@ class LobbyController extends Controller
         return back();
 
     }
-//    public function leave()
-//    {
-//        $url_pr = url()->previous();
-//        $url_pr = parse_url($url_pr);
-//        $arr = explode('/', $url_pr['path']);
-//        $game_id = $arr[3];
-//        $players = Lobby::getPlayers($game_id); //
-//        $lobby = cache($game_id);
-//        $steam_id = auth()->user()->player_id;
-////        $coins = auth()->user()->coins;
-//
-//        $place = array_search($steam_id, array_column($players, 'uid'));
-//
-//        if ($place == 0 || $place) {
-//            $players[$place+1]['uid'] = 0;
-//            $players[$place+1]['bet'] = 0;
-//            $players[$place+1]['mmr'] = 0;
-//            $players[$place+1]['rank'] = 0;
-//        }
-//
-//        $lobby[$game_id]['players'] = json_encode($players);
-//
-//        Cache::forever($game_id,$lobby);
-//
-//        return back();
-//    }
 
     public function setId($game_id)
     {
-//        Cache::forget('status_'.$game_id);
         $lobby = [];
         $lobby = cache('status_'.$game_id);
 
@@ -221,7 +185,6 @@ class LobbyController extends Controller
 
     public function start($game_id)
     {
-
         $lobby = cache($game_id);
         $bank = $lobby[$game_id]['bank'];
         $rank = $lobby[$game_id]['rank'];
@@ -232,10 +195,6 @@ class LobbyController extends Controller
         $radiant = $players[0];
         $dire = $players[1];
 
-
-//        $test = Storage::makeDirectory("$game_id");
-        $test = mkdir($_SERVER['DOCUMENT_ROOT']."/js/node-dota2/examples/bot1/games/$game_id/", "0777", true);
-        dd($test);
         $room = Room::find($game_id);
         if(!isset($room))
         {
@@ -248,15 +207,15 @@ class LobbyController extends Controller
                 $content .= '[\''.$value['uid'] . '\',' . "'D'],";
             }
             $content .= "['$game_id']];module.exports.id = id;";
-            // dd($content);
-//            Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
-//            Storage::disk('bot')->put("bot1/players.js", $content);
-            // dd($rank);
-            $allRooms = cache($rank);
 
+            Storage::disk('bot')->makeDirectory("bot1/games/$game_id");
+            Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
+            Storage::disk('bot')->put("bot1/players.js", $content);
+
+            $allRooms = cache($rank);
             $game = array_search($game_id, $allRooms);
 
-            if($game){
+            if((int)$game >= 0){
                 unset($allRooms[$game]);
             }
 
@@ -275,10 +234,15 @@ class LobbyController extends Controller
             $rootDir = $_SERVER['DOCUMENT_ROOT'];
 
             $bot_path = "cd "
-                . "js/node-dota2/examples/bot1 "
-                . "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
-            //. "&& node start.js >> /home/vagrant/dota2roulette/public/js/node-dota2/examples/games/$game_id/$game_id.log &";
-            exec($bot_path, $out, $err);
+            . "js/node-dota2/examples/bot1 "
+            . "&& node start.js > $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
+
+            $descriptorspec = array(
+                0 => array("pipe", "r"),
+                1 => array("pipe", "w")
+            );
+
+            proc_open($bot_path, $descriptorspec, $pipes);
         }
         return view('lobby.start', compact('game_id', 'radiant', 'dire','bank'));
 
@@ -308,8 +272,7 @@ class LobbyController extends Controller
             }else
                 $log['match_outcome'] = 1;
         }
-        //dd($log['match_outcome']);
-        //dd($arr);
+
         DB::table('rooms')->where('id', $game_id)->update(['winners' => $log['match_outcome']]);
         //сохраняем отдельно файлик с ид пользователей
 //        Storage::disk('bot')->move('players.js', 'game/'.$game_id.'players.js');
@@ -379,8 +342,6 @@ class LobbyController extends Controller
                 }
             }
         }
-        return redirect()->action('RoomController@index');
-        //$lines = file('/home/vagrant/dota2roulette/public/js/node-dota2/examples/'.$game_id.'end');
-        //$fs = fopen("/home/vagrant/code/auth/public/js/node-dota2/examples/match.end25510595586138574", 'r+');
+        return view('lobby.result');
     }
 }

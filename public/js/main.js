@@ -17,9 +17,9 @@ $(document).ready(function () {
                 bet: bet
             },
             success: function (response) {
-                document.getElementById('bet_'+user_id).innerHTML = response.bet;
+		console.log(response);
+		document.getElementById('bet_'+user_id).innerHTML = response.bet;
                 document.getElementById('max').innerHTML = response.coins;
-               document.getElementById('cash').innerHTML = "<span class=\"glyphicon glyphicon-plus\"></span>" + " Wallet:" + response.coins;
                 document.getElementById('bank').innerHTML = "Current bank in this room:" + response.bank + "$";
             },
             error: function(xhr) {

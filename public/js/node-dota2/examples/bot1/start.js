@@ -151,12 +151,12 @@ for (var [key, value] of store.entries()) {
             { // sets only password, nothing more
                 var properties = {
                     "game_name": "tghbcvf335g",
-                    "server_region": dota2.ServerRegion.SINGAPORE,
+                    "server_region": dota2.ServerRegion.UNSPECIFIED,
                     "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_AP,
                     "series_type": dota2.SeriesType.BEST_OF_THREE,
                     "game_version": 1,
                     "allow_cheats": true,
-                    "fill_with_bots": false,
+                    "fill_with_bots": true,
                     "allow_spectating": true,
                     "pass_key": "ap",
                     "radiant_series_wins": 0,
@@ -176,8 +176,8 @@ for (var [key, value] of store.entries()) {
         for (var [key, value] of store.entries()) {
         Dota2.inviteToLobby(key); // Me
         util.log("Inviting user ID: "+ key + " Team: " + value);
-        }
-            }, 1000);
+            }
+        }, 1000);
          /*   console.log(JSON.stringify(Dota2.AccountID));*/
             // INVITE TO LOBBY
 /*            var players = [
@@ -225,11 +225,11 @@ Dota2.on("practiceLobbyResponse", function(data) {
     lobby = lobby_data;
     lobbyChannel = "Lobby_"+lobby.lobby_id;
     
-    // util.log(lobby_data);
+    //util.log(lobby_data);
     //lobby.match_outcome = 3;
     //lobby.lobby_id = 1;
 
-   /* if(lobby.match_outcome == 3)
+    /* if(lobby.match_outcome == 3)
     {
         //fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
         fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
@@ -240,20 +240,20 @@ Dota2.on("practiceLobbyResponse", function(data) {
     }
     util.log("lobby game state = "+lobby.game_state);*/
     //lobby.game_state = 6;
-        util.log(lobby);
+        // util.log(lobby);
     // if(lobby.game_state == 6){
                 //fs.writeFileSync("match.end", dota2._getMessageName(kMsg));
-                 var result;
-                 for (var i in lobby) {
+                     var result;
+                for (var i in lobby) {
                     if (lobby.hasOwnProperty(i) ) {
                         result += i + " " + JSON.stringify(lobby[i]) + "\n";
                     }
-                    // if (i == 'match_outcome') {
-                    //     result += i + " " + lobby[i] + " ";
-                    //     // fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                    // }
-                    fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                }
+                    if(lobby.match_outcome == 2 || lobby.match_outcome == 3){
+                        util.log(lobby_data);
+                        fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome "+lobby.match_outcome);
+                    }
+                
+    }
             // }
 
     });
@@ -267,20 +267,9 @@ Dota2.on("practiceLobbyResponse", function(data) {
                  }, 1000);
              });
 
-                        Dota2.launchPracticeLobby(function(err, body){
-                            util.log(JSON.stringify(body));
-                        //var res = lobby.getOwnPropertyNames(lobby);
-                        /*for (var i in body) {
-                        if (body.hasOwnProperty(i) ) {
-                            res += i + " " + body[i] + "\n";
-                        }
-                    }*/
-                        // util.log(res);
-                        // fs.writeFileSync("test.end", res);
-                    });
-               var i = 0;
-               Dota2.on("chatMessage", function(channel, sender_name, message, chatData) {
-                channel = lobbyChannel;
+            var i = 0;
+            Dota2.on("chatMessage", function(channel, sender_name, message, chatData) {
+            channel = lobbyChannel;
                 if (message == 'ok'){
                     i++;   
                 }

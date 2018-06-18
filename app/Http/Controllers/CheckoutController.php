@@ -64,6 +64,7 @@ class CheckoutController extends Controller
         $user_coins = Auth::user()->coins;
 
         Stripe::setApiKey("sk_test_gsnmhNoQKUSOkQOTH5pAE7yZ");
+
         try{
             $charge = Charge::create([
                 "amount" => request()->input('refill') * 100,
@@ -71,6 +72,7 @@ class CheckoutController extends Controller
                 "source" => request()->input('stripeToken'), // obtained with Stripe.js
                 "description" => "Test Charge"
             ]);
+
             if ($charge){
                 request()->user()->update([
                     'coins' => $user_coins + request()->input('refill')
@@ -78,10 +80,10 @@ class CheckoutController extends Controller
             }
         }catch (Exception $e){
 
-            return redirect('/personal')->with('error', $e->getMessage());
+            return redirect('/profile')->with('error', $e->getMessage());
         }
 
-        return redirect('/personal')->with('success', 'Successfully purchased products!');
+        return redirect('/profile')->with('success', 'Successfully purchased products!');
 
     }
 

@@ -1,6 +1,32 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-@section('content')
+    <title>Start</title>
+
+    <!-- FontsS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
+
+    <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Lato';
+        }
+
+        .fa-btn {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body style="margin-top: 100px;">
     <div class="container">
         @if($errors->any())
             <h4>{{$errors->first()}}</h4>
@@ -131,41 +157,46 @@
             </div>
         </div>
     </div>
-    <script>
-       window.onload =  function () {
-           $('.place').on('click', function () {
-               var id = $('.place').attr('id');
-               var ready = document.getElementById(id);
-               ready.innerHTML = "Ready!";
-               ready.setAttribute("color:", "green");
-               ready.setAttribute("class", "non-click");
+</body>
+<script>
+   window.onload =  function () {
+       $('.place').on('click', function () {
+           var id = $('.place').attr('id');
+           var ready = document.getElementById(id);
+           ready.innerHTML = "Ready!";
+           ready.setAttribute("color:", "green");
+           ready.setAttribute("class", "non-click");
 
 
-               var link = document.getElementById(id).getAttribute("href");
-               var room_id = link.split('/')[3];
-               var place = link.split('/')[5];
+           var link = document.getElementById(id).getAttribute("href");
+           var room_id = link.split('/')[3];
+           var place = link.split('/')[5];
 
-               $.ajax({
-                    type: "GET",
-                    url: room_id + '/place/' + place + '/set'
-               });
+           $.ajax({
+                type: "GET",
+                url: room_id + '/place/' + place + '/set'
            });
+       });
 
-           var timerId = setTimeout(function tick() {
-               $.get(window.location.pathname + '/get', function (response) {
-                   if (response.length >= 1) {
-                       clearTimeout(timerId);
-                       document.getElementById('change').setAttribute("style", "visibility: visible");
+       var timerId = setTimeout(function tick() {
+           $.get(window.location.pathname + '/get', function (response) {
+               if (response.length >= 2) {
+                   clearTimeout(timerId);
+                   document.getElementById('change').setAttribute("style", "visibility: visible");
+                   setTimeout(function () {
+                       document.getElementById('change').setAttribute("style", "visibility: hidden");
                        setTimeout(function () {
-                           document.getElementById('change').setAttribute("style", "visibility: hidden");
-                           setTimeout(function () {
-                               window.location.href = window.location.pathname + '/start';
-                           }, 3000);
+                           window.location.href = window.location.pathname + '/start';
                        }, 3000);
-                   }
-               });
-               timerId = setTimeout(tick, 500);
-           }, 500);
-        };
-    </script>
-@endsection
+                   }, 3000);
+               }
+           });
+           timerId = setTimeout(tick, 500);
+       }, 500);
+    };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript" src="{{ url('/js/checkout.js') }}"></script>

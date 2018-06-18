@@ -12,7 +12,6 @@ class RoomController extends Controller
 {
     public function index()
     {   
-//        Cache::flush();
         return view('rooms.index2');
     }
 
@@ -36,22 +35,20 @@ class RoomController extends Controller
 
     public function all($rank)
     {
-     //Cache::flush();
-
         $ids = cache($rank);
-        if ($ids == null){
+        if ($ids == null || array_values($ids) == null){
             $lobbies = array();
         } else {
             $lobbies = Cache::many($ids);
-            foreach ($lobbies as $key => $lobby) {
-              // dd($lobbies);
-              $players = json_decode($lobby[$key]['players'],true);
+	    foreach ($lobbies as $key => $lobby) {
+              $players = json_decode($lobby[$key]['players'], true);
               $playersCount = 0;
+
               foreach ($players as $value) {
                 if($value['uid'] != 0){
                   $playersCount++;
                 }
-            }
+              }
             $lobby[$key]['count'] = $playersCount;
 
             $lobbies[$key] = $lobby;
@@ -64,9 +61,8 @@ class RoomController extends Controller
             }
             return ($a[key($a)]['count'] > $b[key($b)]['count']) ? -1 : 1;
             });
-       // dd($lobbies);
 
-        return view('rooms.all', ['lobbies' => $lobbies]);
+        return view('rooms.all', ['lobbies' => $lobbies, 'rank' => $rank]);
     }
 
     /*

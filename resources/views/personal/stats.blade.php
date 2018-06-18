@@ -18,13 +18,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                            <tr>
+                                @if($user_stats)
                                     <td>{{$user_stats->total_games}}</td>
                                     <td>{{$user_stats->win_games}}</td>
                                     <td>{{$user_stats->lose_games}}</td>
                                     <td>{{$user_stats->bet_win}}</td>
                                     <td>{{$user_stats->bet_lose}}</td>
-                                </tr>
+                                @endif
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -48,21 +50,21 @@
                                 <th>Gold per minute</th>
                             </tr>
                             </thead>
-                        <tbody>
+                            <tbody>
                             @foreach($games as $value)
-                            <tr>
-                                <td>{{$value['match_id']}}</td>
-                                <td>{{$value['duration']}}</td>
-                                <td>{{$value['game_mode']}}</td>
-                                <td>{{$value['radiant_win']}}</td>
-                                <td>{{$value['kills']}}</td>
-                                <td>{{$value['deaths']}}</td>
-                                <td>{{$value['assists']}}</td>
-                                <td>{{$value['xp_per_min']}}</td>
-                                <td>{{$value['gold_per_min']}}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{$value['match_id']}}</td>
+                                    <td>{{$value['duration']}}</td>
+                                    <td>{{$value['game_mode']}}</td>
+                                    <td>{{$value['radiant_win']}}</td>
+                                    <td>{{$value['kills']}}</td>
+                                    <td>{{$value['deaths']}}</td>
+                                    <td>{{$value['assists']}}</td>
+                                    <td>{{$value['xp_per_min']}}</td>
+                                    <td>{{$value['gold_per_min']}}</td>
+                                </tr>
                             @endforeach
-                        </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
