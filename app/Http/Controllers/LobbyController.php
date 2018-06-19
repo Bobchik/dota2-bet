@@ -47,7 +47,15 @@ class LobbyController extends Controller
 
         $players =  Lobby::getPlayers($game_id);
         $players = array_chunk($players, count($players)/2, true);
+//        dd($players);
+        // $users = User::all('player_id')->toArray();
 
+        // for ($i=1; $i < 11; $i++) { 
+        //     $players[$i]['uid'] = $users[$i-1]['player_id'];
+        // }
+        // $lobby[$game_id]['players'] = json_encode($players);
+        // Cache::forever($game_id,$lobby[$game_id]);
+        // dd(cache($game_id));
         $radiant = $players[0];
         $dire = $players[1];
         $lobby = cache($game_id);
@@ -144,6 +152,7 @@ class LobbyController extends Controller
         $users = User::all('player_id')->toArray();
         $players = Lobby::getPlayers($game_id);
 
+//        dd($users);
         for ($i=1; $i < 11; $i++) {
             $players[$i]['uid'] = $users[$i-1]['player_id'];
             $players[$i]['bet'] = 2;
@@ -154,9 +163,36 @@ class LobbyController extends Controller
         return back();
 
     }
+//    public function leave()
+//    {
+//        $url_pr = url()->previous();
+//        $url_pr = parse_url($url_pr);
+//        $arr = explode('/', $url_pr['path']);
+//        $game_id = $arr[3];
+//        $players = Lobby::getPlayers($game_id); //
+//        $lobby = cache($game_id);
+//        $steam_id = auth()->user()->player_id;
+////        $coins = auth()->user()->coins;
+//
+//        $place = array_search($steam_id, array_column($players, 'uid'));
+//
+//        if ($place == 0 || $place) {
+//            $players[$place+1]['uid'] = 0;
+//            $players[$place+1]['bet'] = 0;
+//            $players[$place+1]['mmr'] = 0;
+//            $players[$place+1]['rank'] = 0;
+//        }
+//
+//        $lobby[$game_id]['players'] = json_encode($players);
+//
+//        Cache::forever($game_id,$lobby);
+//
+//        return back();
+//    }
 
     public function setId($game_id)
     {
+//        Cache::forget('status_'.$game_id);
         $lobby = [];
         $lobby = cache('status_'.$game_id);
 
@@ -194,6 +230,7 @@ class LobbyController extends Controller
 
         $radiant = $players[0];
         $dire = $players[1];
+
 
         $room = Room::find($game_id);
         if(!isset($room))
@@ -234,15 +271,16 @@ class LobbyController extends Controller
             $rootDir = $_SERVER['DOCUMENT_ROOT'];
 
             $bot_path = "cd "
-            . "js/node-dota2/examples/bot1 "
-            . "&& node start.js > $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
+                . "js/node-dota2/examples/bot1 "
+		. "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
 
-            $descriptorspec = array(
-                0 => array("pipe", "r"),
-                1 => array("pipe", "w")
-            );
+		$descriptorspec = array(
+   		0 => array("pipe", "r"),
+   		1 => array("pipe", "w")
+    		);
 
-            proc_open($bot_path, $descriptorspec, $pipes);
+	        proc_open($bot_path, $descriptorspec, $pipes);
+		//exec($bot_path, $out, $err);
         }
         return view('lobby.start', compact('game_id', 'radiant', 'dire','bank'));
 
@@ -272,7 +310,8 @@ class LobbyController extends Controller
             }else
                 $log['match_outcome'] = 1;
         }
-
+        //dd($log['match_outcome']);
+        //dd($arr);
         DB::table('rooms')->where('id', $game_id)->update(['winners' => $log['match_outcome']]);
         //сохраняем отдельно файлик с ид пользователей
 //        Storage::disk('bot')->move('players.js', 'game/'.$game_id.'players.js');
@@ -342,6 +381,6 @@ class LobbyController extends Controller
                 }
             }
         }
-        return view('lobby.result');
+        return view('lobby.result',['winners' => $winners]);
     }
 }

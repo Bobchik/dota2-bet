@@ -1,7 +1,8 @@
 @extends('layouts.app')
+@include('common.menu')
 
 @section('content')
-    <div class="container">
+    <div class="container" style="margin-top: 80px;">
         <form action="{{ url('/new_room/set') }}" method="POST">
             {{csrf_field()}}
             <div class="container">

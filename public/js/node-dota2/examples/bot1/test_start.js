@@ -141,50 +141,6 @@ for (var [key, value] of store.entries()) {
             DOTA_GAMEMODE_1V1MID = 21;
             DOTA_GAMEMODE_ALL_DRAFT = 22;
             }*/
-            var creatingLobby = 1;
-            var leavingLobby = 0;
-            var destroyLobby = 1;
-            var lobbyChannel = "";
-                var lobby = null;
-        
-          if(creatingLobby == 1)
-            { // sets only password, nothing more
-                var properties = {
-                    "game_name": "tghbcvf335g",
-                    "server_region": dota2.ServerRegion.UNSPECIFIED,
-                    "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_AP,
-                    "series_type": dota2.SeriesType.BEST_OF_THREE,
-                    "game_version": 1,
-                    "allow_cheats": true,
-                    "fill_with_bots": true,
-                    "allow_spectating": true,
-                    "pass_key": "ap",
-                    "radiant_series_wins": 0,
-                    "dire_series_wins": 0,
-                    "allchat": true
-                }
-
-        // LEAVE BEFORE CREATE
-        Dota2.leavePracticeLobby(function(err, body){
-            Dota2.destroyLobby();
-        // CREATE LOBBY
-        Dota2.createPracticeLobby(properties, function(err, body){
-            Dota2.practiceLobbyKickFromTeam(Dota2.AccountID);
-            util.log(JSON.stringify(body));
-
-    setTimeout(function(){
-        for (var [key, value] of store.entries()) {
-        Dota2.inviteToLobby(key); // Me
-        util.log("Inviting user ID: "+ key + " Team: " + value);
-        }
-            }, 1000);
-
-            // util.log();
-           
-
-    });
-
-});
 /*enum DOTA_GC_TEAM {
     DOTA_GC_TEAM_GOOD_GUYS = 0;
     DOTA_GC_TEAM_BAD_GUYS = 1;
@@ -193,157 +149,144 @@ for (var [key, value] of store.entries()) {
     DOTA_GC_TEAM_PLAYER_POOL = 4;
     DOTA_GC_TEAM_NOTEAM = 5;
 }*/
-Dota2.on("practiceLobbyResponse", function(data) {
-    Dota2.joinPracticeLobbyTeam(2,4);
-});
+            var creatingLobby = 1;
+            var leavingLobby = 0;
+            var destroyLobby = 0;
+            var lobbyChannel = "";
+                var lobby = null;
+        
+    if(creatingLobby == 1)
+        { // sets only password, nothing more
+            var properties = {
+                "game_name": "tghbcvf335g",
+                "server_region": dota2.ServerRegion.UNSPECIFIED,
+                "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_AP,
+                "series_type": 0,
+                // "game_version": 1,
+                "allow_cheats": true,
+                "fill_with_bots": true,
+                "allow_spectating": true,
+                "pass_key": "ap",
+                "radiant_series_wins": 0,
+                "dire_series_wins": 0,
+                "allchat": true
+            }
+        // LEAVE BEFORE CREATE
+        Dota2.leavePracticeLobby(function(err, body)
+        {
+            Dota2.destroyLobby();
+            // CREATE LOBBY
+            Dota2.createPracticeLobby(properties, function(err, body)
+            {
+                Dota2.practiceLobbyKickFromTeam(Dota2.AccountID);
+                //util.log(JSON.stringify(body));
 
-Dota2.on("practiceLobbyUpdate", function(lobby_data) {
-    if(lobby == null){
-        Dota2.joinChat('Lobby_' + lobby_data.lobby_id, 3);
-    }
-    Dota2.on("chatJoin", function(channel, joiner_name, joiner_steam_id, otherJoined_object) {
-        channel = lobbyChannel;
-        var steam_id = Dota2.ToSteamID(joiner_steam_id.low + "") + "";
-        if(store.has(steam_id)){
-            if(store.get(steam_id) == 'R'){
-                setTimeout(function(){
-                Dota2.sendMessage(joiner_name+", please enter Radiance Team ", lobbyChannel);
+                setTimeout(function()
+                {
+                    for (var [key, value] of store.entries()) {
+                        Dota2.inviteToLobby(key); // Me
+                        util.log("Inviting user ID: "+ key + " Team: " + value);
+                    }
                 }, 1000);
+            });
+        });
+        
+        Dota2.on("practiceLobbyResponse", function(data) 
+        {
+            Dota2.joinPracticeLobbyTeam(2,4);
+        });
+        
+        Dota2.on("practiceLobbyUpdate", function(lobby_data) 
+        {
+            if(lobby == null)
+            {
+                Dota2.joinChat('Lobby_' + lobby_data.lobby_id, 3);
             }
-            if(store.get(steam_id) == 'D'){
-                setTimeout(function(){
-                Dota2.sendMessage(joiner_name+", please enter Dire Team ", lobbyChannel);
-                }, 1000);
-            }
-        }
-    });
-    lobby = lobby_data;
-    lobbyChannel = "Lobby_"+lobby.lobby_id;
+            
+            Dota2.on("chatJoin", function(channel, joiner_name, joiner_steam_id, otherJoined_object) 
+            {
+                channel = lobbyChannel;
+                var steam_id = Dota2.ToSteamID(joiner_steam_id.low + "") + "";
+                if(store.has(steam_id))
+                {
+                    if(store.get(steam_id) == 'R')
+                    {
+                    setTimeout(function(){
+                        Dota2.sendMessage(joiner_name+", please enter Radiance Team ", lobbyChannel);
+                       }, 1000);
+                    }
+                    if(store.get(steam_id) == 'D')
+                    {
+                        setTimeout(function(){
+                        Dota2.sendMessage(joiner_name+", please enter Dire Team ", lobbyChannel);
+                        }, 1000);
+                    }
+                }
+            });
+            
+            lobby = lobby_data;
+            lobbyChannel = "Lobby_"+lobby.lobby_id;
     
-    lobby.match_outcome = 3;
+    // util.log(lobby_data);
+    //lobby.match_outcome = 3;
     //lobby.lobby_id = 1;
 
-    if(lobby.match_outcome == 3)
+   /* if(lobby.match_outcome == 3)
     {
-        var result;
-                for (var i in lobby) {
-                    if (lobby.hasOwnProperty(i) ) {
-                        result += i + " " + JSON.stringify(lobby[i]) + "\n";
-                    }
-                util.log(lobby_data);
-                fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                
+        //fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
+        fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
+        util.log("match_outcome = "+lobby.match_outcome);
+        util.log(players.id[10]);
+        //util.log("match_outcome = "+lobby.lobby_id);
+        process.exit(1);
     }
-    util.log("lobby game state = "+lobby.game_state);
+    util.log("lobby game state = "+lobby.game_state);*/
     //lobby.game_state = 6;
         // util.log(lobby);
     // if(lobby.game_state == 6){
                 //fs.writeFileSync("match.end", dota2._getMessageName(kMsg));
-                 var result;
-                 for (var i in lobby) {
-                    if (lobby.hasOwnProperty(i) ) {
+            var result;
+            lobby.match_outcome = 2;
+            for (var i in lobby) 
+            {
+                if(lobby.match_outcome == 2 || lobby.match_outcome == 3)
+                {
+                    if (lobby.hasOwnProperty(i) )
+                    {
                         result += i + " " + JSON.stringify(lobby[i]) + "\n";
                     }
-                    // if (i == 'match_outcome') {
-                    //     result += i + " " + lobby[i] + " ";
-                    //     // fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
-                    // }
-                    fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", result);
+                    fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome "+lobby.match_outcome);
+                    fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".res", result);
                 }
-             }
-
-    });
+            }
+                    //util.log(result);
+        });
               //chatMessage" (channel, sender_name, message, chatData)
-        Dota2.on("chatLeave", function(channel, leaver_steam_id, otherLeft_object) {
-                 channel = lobbyChannel;
-                 setTimeout(function(){
-                     Dota2.sendMessage(leaver_steam_id+" leave lobby", lobbyChannel);
-                  Dota2.inviteToLobby(leaver_steam_id); // Me
-                  util.log(leaver_steam_id+" leave lobby", lobbyChannel);
-                 }, 1000);
-             });
+        Dota2.on("chatLeave", function(channel, leaver_steam_id, otherLeft_object) 
+        {
+            channel = lobbyChannel;
+            setTimeout(function(){
+                Dota2.sendMessage(leaver_steam_id+" leave lobby", lobbyChannel);
+                Dota2.inviteToLobby(leaver_steam_id); // Me
+                util.log(leaver_steam_id+" leave lobby", lobbyChannel);
+            }, 1000);
+        });
 
-            var i = 0;
-            Dota2.on("chatMessage", function(channel, sender_name, message, chatData) {
-                channel = lobbyChannel;
+        var i = 0;
+        Dota2.on("chatMessage", function(channel, sender_name, message, chatData) {
+        channel = lobbyChannel;
                 if (message == 'ok'){
                     i++;   
                 }
                 if (i == 1){
                     Dota2.launchPracticeLobby(function(err, body){
-                        util.log(JSON.stringify(body));
+                    util.log(JSON.stringify(body));
                     });
                 }
             });
-           }
+        }
 
-            // if(leavingLobby == 1){
-            //     setTimeout(function(){
-            //         Dota2.leavePracticeLobby(function(err, data){
-            //             if (!err) {
-            //                 Dota2.abandonCurrentGame();
-            //                 if(lobbyChannel) Dota2.leaveChat(lobbyChannel);
-            //             } else {
-            //                 util.log(err + ' - ' + JSON.stringify(data));
-            //             }
-            //         });
-            //     }, 10000);
-            // }
-
-            // if(destroyLobby == 1){
-            //     setTimeout(function(){
-            //         Dota2.destroyLobby(function(err, data){
-            //             if (err) {
-            //                 util.log(err + ' - ' + JSON.stringify(data));
-            //             } else {
-            //                 if(lobbyChannel) Dota2.leaveChat(lobbyChannel);
-            //             }
-            //         });
-            //     }, 10000);
-            // }
-            
-            // ----------------------------------
-            
-            // TEAM
-            
-            // var myTeamInfo = 0;
-            
-            // if (myTeamInfo == 1) {
-            //     Dota2.requestMyTeams(function(err, data){
-            //         util.log(JSON.stringify(data));
-            //     });
-            // }
-            
-            // // ----------------------------------
-            
-            // // SOURCETV
-            
-            // var sourceGames = 0;
-            
-            // if (sourceGames == 1) {
-            //     Dota2.requestSourceTVGames();
-            //     Dota2.on('sourceTVGamesData', (gamesData) => {
-            //         util.log(gamesData);
-            //     });
-            // }
-            
-            // ----------------------------------
-            
-            // FANTASY
-            
-            // var fantasyCards = 0;
-            
-            // if (fantasyCards == 1) {
-            //     Dota2.on("inventoryUpdate", inventory => {
-            //         // Time-out so inventory property is updated
-            //         setTimeout(()=>{
-            //             Promise.all(Dota2.requestPlayerCardsByPlayer()).then(cards => {
-            //                 fs.writeFileSync('cards.js',JSON.stringify(cards));
-            //             });
-            //         }, 10000);
-            //     });
-            // }
-        });
+});
 
         Dota2.on("unready", function onUnready() {
             util.log("Node-dota2 unready.");

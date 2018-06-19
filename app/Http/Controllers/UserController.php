@@ -23,6 +23,10 @@ class UserController extends Controller
         return view('personal.index', compact('user_info', 'services', 'games'));
     }
 
+    public function games() {
+        return view('personal.games');
+    }
+
     public function get($id){
 
         if (strlen($id) > 10){

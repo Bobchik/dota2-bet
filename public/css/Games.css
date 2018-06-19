@@ -1,0 +1,41 @@
+.games {
+    margin-top: 7%;
+    margin-left: 80px;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.games-row {
+    margin: 10px 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+
+.games-img {
+    width: 31%;
+    /* TODO:  */
+}
+
+.games-img img {
+    width: 100%;
+}
+
+.games-img-hover {
+    /* position: absolute; */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    color: white;
+    /* visibility: hidden; */
+}
+
+.games-img-hover:hover {
+    opacity: 1;
+}
