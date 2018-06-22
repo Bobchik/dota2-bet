@@ -13,7 +13,7 @@
     <div class="right-bar">
         <div class="cash"><a href="#" id="cash" style="text-decoration:none; color: #F9E306; " data-toggle="modal"
                              data-target="#exampleStripe"><span
-                        class="glyphicon glyphicon-plus"></span>Wallet: {{Auth::user()->coins}}</a></div>
+                        class="glyphicon glyphicon-plus"></span><span id="user_cash">Wallet: {{Auth::user()->coins}}</span></a></div>
         <a href="" class="profile"></a>
         <i class="fas fa-bell" style="color: aliceblue; font-size: 20px; margin-left: 20px;"></i>
         <ul class="nav navbar-nav navbar-right">
