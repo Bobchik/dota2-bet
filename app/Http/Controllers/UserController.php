@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use App\Report;
 use App\Service;
 use App\Stat;
 use App\Steam;
@@ -25,6 +26,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user_info = User::player_id($id);
+
         return view('personal.show', compact('user_info'));
     }
 
@@ -32,15 +34,21 @@ class UserController extends Controller
     {
         User::get_mmr();
         Stat::getSteamTime(auth()->user()->player_id);
+
         return back();
     }
 
     public function report_user($id)
     {
-        $user = User::player_id($id);
-        $user->morality = $user->morality - request()->value;
+        $auth_user = auth()->user()->id;
+        $check = Report::check_reporter($auth_user, $id);
+        if ($check) {
+            return back()->with('error', $check->getContent());
+        }
+        $user = User::find($id);
+        $user->morality = $user->morality - 1;
         $user->save();
 
-        return response('User account has been reported!', '200');
+        return back()->with('response', 'User has been reported!');
     }
 }

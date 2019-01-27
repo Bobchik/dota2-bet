@@ -27,6 +27,27 @@
                 @endif
                 <li class="list-group-item">Текущий рейтинг на сервисе: {{$user_info->morality}}</li>
             </ul>
+        <div class="balance">
+            <div class="buttons">
+                <div class="col-sm-6">
+                    <a href="{{'/profile/' . $user_info->id . '/report'}}" class="balance-btn" style="color:#000000; text-decoration: none;"> Пожаловаться</a>
+                </div>
+                <div class="col-sm-6">
+                    @if (session('response'))
+                        <div class="alert alert-success">
+                            {{ session('response') }}
+                        </div>
+                    @endif
+                </div>
+                <div class="col-sm-6">
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
         <div class="right">
             <div class="items">
                 <span class="game-client-sign">Игровые клиенты</span>
@@ -84,4 +105,10 @@
             </div>
         </div>
     </div>
+</div>
+<script>
+    setTimeout(function() {
+        $('.alert-success').fadeOut('fast');
+    }, 2000);
+</script>
 @endsection

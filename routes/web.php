@@ -18,7 +18,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/new_room/set', 'RoomController@set');
         Route::get('/profile', 'UserController@index')->name('profile');
         Route::get('/profile/{id}', 'UserController@show')->name('profile.show');
-        Route::post('/profile/{id}/report', 'UserController@report_user')->name('profile.report');
+        Route::get('/profile/{id}/report', 'UserController@report_user')->name('profile.report');
         Route::post('/profile/update', 'UserController@update')->name('profile.update');
 
         Route::get('/games', 'GamesController@index')->name('games');
