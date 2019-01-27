@@ -12,7 +12,6 @@ class RoomController extends Controller
 {
     public function index()
     {   
-//        Cache::flush();
         return view('rooms.index2');
     }
 
@@ -36,8 +35,6 @@ class RoomController extends Controller
 
     public function all($rank)
     {
-     //Cache::flush();
-
         $ids = cache($rank);
         if ($ids == null || array_values($ids) == null){
             $lobbies = array();
@@ -64,7 +61,6 @@ class RoomController extends Controller
             }
             return ($a[key($a)]['count'] > $b[key($b)]['count']) ? -1 : 1;
             });
-       // dd($lobbies);
 
         return view('rooms.all', ['lobbies' => $lobbies, 'rank' => $rank]);
     }

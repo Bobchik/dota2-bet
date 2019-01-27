@@ -27,4 +27,9 @@ class Service extends Model
     {
         return $this->belongsTo(Game::class);
     }
+
+    public static function all_services()
+    {
+        return self::all();
+    }
 }

@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "ext-curl": "*",
         "baibaratsky/php-webmoney": "^0.17.0",
+        "curl/curl": "^2.0",
         "davismiculis/g2apay": "^1.1",
         "electrolinux/phpquery": "^0.9.6",
         "fideloper/proxy": "~3.3",
@@ -14,8 +16,8 @@
         "invisnik/laravel-steam-auth": "3.*",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "stripe/stripe-php": "^6.1",
-        "coderockr/php-query": "dev-master"
+        "phpseclib/phpseclib": "^2.0",
+        "stripe/stripe-php": "^6.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

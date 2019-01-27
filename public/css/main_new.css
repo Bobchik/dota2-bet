@@ -1,0 +1,239 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html { 
+  background: url(../img/BG.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body{
+    font-family: Arial;
+    font-size: 14px;
+    /*color: #161616;*/
+    background: url(../img/BG.png) no-repeat;
+	  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+ 
+   line-height: 1.3;
+}
+
+.stripe-input {
+    margin-left: 0!important;
+    border: 1px solid black!important;
+}
+
+#app-layout {
+    overflow-x: hidden;
+}
+
+.button{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(90deg, #F5B403 0%, #FFE379 100%);
+    border-radius: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    color: #161616;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.button:hover{
+    background: linear-gradient(90deg, #F5B403 0%, #F5B403 100%);
+}
+
+.landing_block{
+    width: 100%;
+    height: 100vh;
+    background-size: 100% ;
+    position: relative;
+}
+
+.landing_header{
+    position: relative;
+}
+
+.logo{
+    margin-top: 40px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.landing_content{
+    text-align: center;
+}
+
+.landing_text{
+    margin: 0 auto;
+    margin-top: 25px;
+    color: #FFFFFF;
+}
+
+.fs_btn{
+    width: 249px;
+    height: 49px;
+    margin-top: 30px;
+}
+
+.landing_title{
+    margin-top: 160px;
+}
+
+.landing_arrow{
+    position: absolute;
+    left: 50%;
+    bottom: 34px;
+    transform: translateX(-50%);
+    cursor: pointer;
+}
+
+.landing_arrow.reversed{
+    transform: rotate(180deg);
+}
+
+.header_btn{
+    width: 249px;
+    height: 49px;
+    float: right;
+    margin-right: 50px;
+    margin-top: 66px;
+}
+
+.advantages_block{
+    padding-top: 90px;
+    width: 85%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.advantage_item{
+    width: 25%;
+    text-align: center;
+    margin: 0 15px;
+}
+
+.icon_wrap{
+    position: relative;
+    width: 100%;
+}
+
+.icon_wrap img{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icon_wrap .hover{
+    display: none;
+}
+
+.advantage_item:hover .icon_wrap .no_hover{
+    display: none;
+}
+
+.advantage_item:hover .icon_wrap .hover{
+    display: block;
+}
+
+.advantage_title{
+    font-weight: bold;
+    font-size: 30px;
+    color: #FFFFFF;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: 150px;
+}
+
+.advantage_text{
+    text-align: left;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.64);
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-top: 25px;
+    opacity: 0;
+
+    transition: opacity .3s ease-in-out;
+}
+
+.advantage_item:hover .advantage_text{
+    opacity: 1;
+}
+
+.modal{
+    margin: 0 auto;
+    background: #0E0E0E;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.modal_heading{
+    font-weight: bold;
+    font-size: 30px;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+/*label {*/
+    /*color: white;*/
+/*}*/
+
+.logout {
+    display: inline-block;
+    color: #ffffff;
+}
+
+.logout:hover, .logout:focus {
+    background-color: inherit!important;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="email"]{
+    background: #FFFFFF;
+    border-radius: 25px;
+    height: 38px;
+    border: none;
+    padding-left: 24px;
+    margin-left: 35%;
+    box-sizing: border-box;
+}
+
+.modal_form input{
+    margin-top: 20px;
+    display: block;
+    font-size: 14px;
+}
+
+.modal_form .modal_heading{
+    margin-bottom: 20px;
+}
+
+.modal_btn{
+    margin-top: 30px;
+    height: 48px;
+    width: 249px;
+}
+
+.modal_extra{
+    display: inline-block;
+    margin-top: 25px;
+    color: #ffffff;
+}
+
+.modal_extra b{
+    cursor: pointer;
+}
+

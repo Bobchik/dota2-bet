@@ -49,7 +49,6 @@ class CheckoutController extends Controller
         $extras = [];
 
         $response = $payment->test()->create($extras);
-//        dd($response);
 
     }
 
@@ -64,6 +63,7 @@ class CheckoutController extends Controller
         $user_coins = Auth::user()->coins;
 
         Stripe::setApiKey("sk_test_gsnmhNoQKUSOkQOTH5pAE7yZ");
+
         try{
             $charge = Charge::create([
                 "amount" => request()->input('refill') * 100,
@@ -71,6 +71,7 @@ class CheckoutController extends Controller
                 "source" => request()->input('stripeToken'), // obtained with Stripe.js
                 "description" => "Test Charge"
             ]);
+
             if ($charge){
                 request()->user()->update([
                     'coins' => $user_coins + request()->input('refill')

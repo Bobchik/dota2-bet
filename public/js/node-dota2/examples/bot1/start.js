@@ -176,8 +176,8 @@ for (var [key, value] of store.entries()) {
         for (var [key, value] of store.entries()) {
         Dota2.inviteToLobby(key); // Me
         util.log("Inviting user ID: "+ key + " Team: " + value);
-        }
-            }, 1000);
+            }
+        }, 1000);
          /*   console.log(JSON.stringify(Dota2.AccountID));*/
             // INVITE TO LOBBY
 /*            var players = [
@@ -225,11 +225,11 @@ Dota2.on("practiceLobbyResponse", function(data) {
     lobby = lobby_data;
     lobbyChannel = "Lobby_"+lobby.lobby_id;
     
-    // util.log(lobby_data);
+    //util.log(lobby_data);
     //lobby.match_outcome = 3;
     //lobby.lobby_id = 1;
 
-   /* if(lobby.match_outcome == 3)
+    /* if(lobby.match_outcome == 3)
     {
         //fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
         fs.writeFileSync("games/"+players.id[10]+"/"+players.id[10]+ ".end", "match_outcome = "+ lobby.match_outcome);
