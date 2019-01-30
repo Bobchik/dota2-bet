@@ -24,6 +24,7 @@ class LobbyController extends Controller
     public function index($game_id)
     {
         $players = Lobby::getPlayers($game_id);
+        $players = array_chunk($players, count($players)/2, true);
 
         $radiant = $players[0];
         $dire = $players[1];

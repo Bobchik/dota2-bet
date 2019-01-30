@@ -1,8 +1,6 @@
 <?php
 
 namespace App;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class Lobby
 {
@@ -14,7 +12,6 @@ class Lobby
     {
         $lobby = Room::find($game_id);
         $players = json_decode($lobby->players,true);
-        $players = array_chunk($players, count($players)/2, true);
 
         return $players;
     }
@@ -31,4 +28,3 @@ class Lobby
         }
     }
 }
-	
