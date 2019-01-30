@@ -9,39 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 class Room extends Model
 {
-    //protected $fillable = ['room_rank', 'min_bet', 'max_bet', 'bet', 'url'];
-    /*
-        public static function desc()
-        {
-            return static::selectRaw('*')
-                ->orderBy('min_bet','desc')
-                ->get()
-                ->toArray();
-        }
 
-        public static function asc()
-        {
-            return static::selectRaw('*')
-                ->orderBy('min_bet','asc')
-                ->get()
-                ->toArray();
-        }
-
-        public static function unsetBet()
-        {
-            $min_bet = request()->session()->get('min_bet');
-            $bet = request()->session()->pull('bet');
-            $user_coins = auth()->user()->coins;
-            $coins = $user_coins + $bet - $min_bet;
-
-            request()->user()->update([
-                'coins' =>$coins
-            ]);
-        }*/
     public static $dir = '../storage/app/public/';
     public static $fullPath;
     protected $fillable
         = ['id', 'rank', 'bank', 'min_bet', 'max_bet', 'players'];
+    public $timestamps = false;
+
+    const FREE_ROOM = 0;
+    const IN_PROCESS = 1;
+    const RADIANT_WIN = 2;
+    const DIRE_WIN = 3;
 
     /*
         Создание игры
@@ -51,6 +29,7 @@ class Room extends Model
         /*
             Исключить повторения
         */
+        $players = [];
         for ($i = 1; $i <= 10; $i++) {
             $players[$i] = ['uid' => 0, 'bet' => 0, 'mmr' => 0, 'rank' => 0];
         }
@@ -81,9 +60,16 @@ class Room extends Model
             return $newbie[$game_id][$key];
         }*/
 
-    public static function create($value, $rank, $min_bet, $max_bet)
+    //вместо кэша записывать это всё в базу
+    public static function newRoom($request)
     {
-        for ($i = 1; $i <= $value; $i++) {
+        $totalPlayers = $request->get('players');
+        $rank = $request->get('rank');
+        $min_bet = $request->get('min_bet');
+        $max_bet = $request->get('max_bet');
+
+        $players=[];
+        for ($i = 1; $i <= $totalPlayers; $i++) {
             $players[$i] = ['uid' => 0, 'bet' => 0, 'mmr' => 0, 'rank' => 0];
         }
 
@@ -97,13 +83,15 @@ class Room extends Model
             'players' => json_encode($players),
         ];
 
-        $game_id = strval(key($data));
+        Room::create([
+            'id' =>$id,
+            'rank' =>$rank,
+            'bank' =>0,
+            'min_bet' =>$min_bet,
+            'max_bet' =>$max_bet,
+            'players' =>json_encode($players),
+            ]);
 
-        $old   = cache($rank);
-        $old[] = $game_id;
-        Cache::forever($rank, $old);
-
-        //Cache::forever($game_id, $data); 
         return $data;
     }
 
@@ -112,7 +100,7 @@ class Room extends Model
         из кэша, если их там нет берём из БД
         и записываем в кэш
     */
-    static public function lobbyList($rank)
+    public static function lobbyList($rank)
     {
         /*       $today = date("YmdGis");
                //$fileName = $today. '_o';
@@ -167,4 +155,5 @@ class Room extends Model
             ($arr = 0);
         }
     }
+
 }

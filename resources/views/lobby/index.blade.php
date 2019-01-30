@@ -1,32 +1,3 @@
-{{--<!DOCTYPE html>--}}
-{{--<html lang="en">--}}
-{{--<head>--}}
-{{--<meta charset="utf-8">--}}
-{{--<meta http-equiv="X-UA-Compatible" content="IE=edge">--}}
-{{--<meta name="viewport" content="width=device-width, initial-scale=1">--}}
-
-{{--<title>Start</title>--}}
-
-{{--<!-- FontsS -->--}}
-{{--<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'--}}
-{{--type='text/css'>--}}
-{{--<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>--}}
-
-{{--<!-- Styles -->--}}
-{{--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">--}}
-{{--<link href="{{ asset('css/main.css') }}" rel="stylesheet">--}}
-
-{{--<style>--}}
-{{--body {--}}
-{{--font-family: 'Lato';--}}
-{{--}--}}
-
-{{--.fa-btn {--}}
-{{--margin-right: 6px;--}}
-{{--}--}}
-{{--</style>--}}
-{{--</head>--}}
-{{--<body style="margin-top: 100px;">--}}
 @extends('layouts.app')
 @include('common.menu')
 
@@ -60,20 +31,6 @@
                             data-target="#exampleModal">Повысить
                     </button>
                 </div>
-                {{--</div>--}}
-                {{--</div>--}}
-                {{--<h3>You are in lobby</h3>--}}
-                {{--<h3>Your cash:<span id="max">{{auth()->user()->coins}}</span>$</h3>--}}
-                {{--    <h3 id="bank">BANK{{$bank}}$</h3>--}}
-
-                {{--<a href="/rooms/lobby/{{$game_id}}/all" style="margin:5px" class="btn btn-primary">Fill lobby--}}
-                {{--</a>--}}
-                {{--<br>--}}
-                {{--<br>--}}
-                {{--<button id="change" class="btn btn-primary text-center" data-toggle="modal" style="visibility: hidden;"--}}
-                {{--data-target="#exampleModal">Increase--}}
-                {{--your bet--}}
-                {{--</button>--}}
             </div>
         </div>
     </div>

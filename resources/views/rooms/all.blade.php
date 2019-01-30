@@ -17,14 +17,14 @@
                     <th>Кол-во игроков</th>
                     <th>Старт</th>
                 </tr>
-                @foreach($lobbies as $room)
+                @foreach($lobbies as $lobby)
                     <tr>
-                        <td>{{key($room)}}</td>
-                        <td>{{$room[key($room)]['min_bet']}}</td>
-                        <td>{{$room[key($room)]['max_bet']}}</td>
-                        <td>{{$room[key($room)]['bank']}}</td>
-                        <td>{{$room[key($room)]['count']}}</td>
-                        <td><a href="../lobby/{{key($room)}}" style="text-decoration: none;">Играть</a></td>
+                        <td>{{$lobby->id}}</td>
+                        <td>{{$lobby->min_bet}}</td>
+                        <td>{{$lobby->max_bet}}</td>
+                        <td>{{$lobby->bank}}</td>
+                        <td>{{$inRoom[$lobby->id]}}</td>
+                        <td><a href="../lobby/{{$lobby->id}}" style="text-decoration: none;">Играть</a></td>
                     </tr>
                 @endforeach
             </table>

@@ -11,6 +11,8 @@ var steam = require("steam"),
 global.config = require("./config");
 
 var players = require('./players');
+console.log (players);
+throw "stop"; // скрипт дальше не должен выполняться.
 
 var onSteamLogOn = function onSteamLogOn(logonResp) {
     if (logonResp.eresult == steam.EResult.OK) {

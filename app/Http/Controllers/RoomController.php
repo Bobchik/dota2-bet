@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Room;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -20,55 +21,42 @@ class RoomController extends Controller
         return view('rooms.create', compact(['id_player']));
     }
 
+    // создание лобби перенести в лобби контролер
+    // получаем данные из формы и создаём лобби
     public function set(Request $request)
-    {   
-        $players = $request->get('players');
-        $rank = $request->get('rank');
-        $min_bet = $request->get('min_bet');
-        $max_bet = $request->get('max_bet');
-        $lobby = Room::create($players,$rank, $min_bet, $max_bet);
+    {
+        $lobby = Room::newRoom($request);
         $game_id = strval(key($lobby));
-
         Cache::forever($game_id,$lobby);
         return redirect()->action('LobbyController@index', ['game_id' => $game_id]);
     }
 
     public function all($rank)
     {
-        $ids = cache($rank);
-        if ($ids == null || array_values($ids) == null){
-            $lobbies = array();
-        } else {
-            $lobbies = Cache::many($ids);
-	    foreach ($lobbies as $key => $lobby) {
-              $players = json_decode($lobby[$key]['players'], true);
-              $playersCount = 0;
+        $lobbies = Room::all()->where('winners',Room::FREE_ROOM);
+        $inRoom = [];
+        foreach ($lobbies as $lobby) {
+            $players = json_decode($lobby->players, true);
 
-              foreach ($players as $value) {
-                if($value['uid'] != 0){
-                  $playersCount++;
+            $playersCount = 0;
+            foreach ($players as $player) {
+                if($player['uid'] != 0){
+                    $playersCount++;
                 }
-              }
-            $lobby[$key]['count'] = $playersCount;
-
-            $lobbies[$key] = $lobby;
-
             }
-          }
-            usort($lobbies, function ($a, $b){
-            if ($a[key($a)]['count'] == $b[key($b)]['count']) {
-              return 0;
-            }
-            return ($a[key($a)]['count'] > $b[key($b)]['count']) ? -1 : 1;
-            });
+            $inRoom[$lobby->id]= $playersCount;
+        }
 
-        return view('rooms.all', ['lobbies' => $lobbies, 'rank' => $rank]);
+        return view('rooms.all', ['lobbies' => $lobbies,
+            'rank' => $rank,
+            'inRoom' => $inRoom]);
     }
 
     /*
         Получаемвсех игроков в комнате.
         Если никого нет, создаём лобби.
     */
+    // чо это за метод
     public function get($game_id)
     {
 
@@ -91,6 +79,7 @@ class RoomController extends Controller
     /*
         Смена места игрока в лобби
     */
+    // чо это за метод
     public function put($game_id,$place_id)
     {
         $players = cache($game_id) ?: Room::lobbyPlayers();
@@ -105,7 +94,7 @@ class RoomController extends Controller
 
         return redirect()->action('LobbyController@index', ['game_id' => $game_id]);
     }
-
+    // чо это за метод
     public function start($game_id)
     {
         $content = 'var id = [';

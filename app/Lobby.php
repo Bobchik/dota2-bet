@@ -11,28 +11,10 @@ class Lobby
     public static $fullPath;
 
     static public function getPlayers($game_id)
-    {   
-//        Cache::flush();
-        if(Cache::has($game_id)){
-            $lobby = cache($game_id);
-            $players = $lobby[$game_id]['players'];
-            $players = json_decode($players,true);
-        }else{
-            // $lobby = DB::table('rooms')->get()->where('id', $game_id);
-            $lobby = Room::find($game_id);//->toArray();
-            $data[$lobby->id] = [
-                'rank' =>$lobby->rank,
-                'bank' =>$lobby->bank,
-                'min_bet' =>$lobby->min_bet,
-                'max_bet' =>$lobby->max_bet,
-                'players' =>$lobby->players,
-                ];
-            $players = $lobby->players;
-            $players = json_decode($players,true);
-/*            $newbie = cache('newbie');
-            $players = json_decode($newbie[$game_id]['players'],true);*/
-            Cache::forever($game_id,$data);
-        }
+    {
+        $lobby = Room::find($game_id);
+        $players = json_decode($lobby->players,true);
+        $players = array_chunk($players, count($players)/2, true);
 
         return $players;
     }
