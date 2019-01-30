@@ -60,7 +60,7 @@
 </div>
 
 <aside>
-    <a href="{{ url('/profile/games') }}" class="agames">
+    <a href="{{ url('/games') }}" class="agames">
         <i class="fas fa-gamepad"></i>
         <p>Игры</p>
     </a>

@@ -17,9 +17,9 @@ $(document).ready(function () {
                 bet: bet
             },
             success: function (response) {
-		document.getElementById('user_cash').innerHTML = "Wallet:" + response.coins;
+		    document.getElementById('user_cash').innerHTML = "Wallet:" + response.coins;
         	document.getElementById('bet_'+user_id).innerHTML = response.bet;
-                document.getElementById('bank').innerHTML = response.bank + "$";
+            document.getElementById('bank').innerHTML = response.bank + "$";
             },
             error: function(xhr) {
         //var err = response.error;

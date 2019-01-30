@@ -11,15 +11,16 @@ use Auth;
 
 class StatsController extends Controller
 {
-    public $player_id;
-
     public function index()
     {
-        $this->player_id = auth()->user()->player_id;
-        $player_id32 = Steam::toSteamID($this->player_id);
+        $player_id = auth()->user()->player_id;
+        $player_id32 = Steam::toSteamID($player_id);
+        Stat::updateOrCreate([
+            'user_id' => $player_id
+        ]);
 
         $user_info  = auth()->user();
-        $user_stats = Stat::find($this->player_id);
+        $user_stats = Stat::find($player_id);
 
         $recent_games = file_get_contents(
             "https://api.opendota.com/api/players/$player_id32/recentMatches"

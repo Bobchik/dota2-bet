@@ -172,9 +172,9 @@
                     if (response.length >= 10) {
                         clearTimeout(timerId);
                         document.getElementById('change').setAttribute("style", "visibility: visible");
-                            setTimeout(function () {
-                                window.location.href = window.location.pathname + '/start';
-                            }, 10000);
+                        setTimeout(function () {
+                            window.location.href = window.location.pathname + '/start';
+                        }, 10000);
                     }
                 });
                 timerId = setTimeout(tick, 4000);

@@ -90,7 +90,7 @@ class Room extends Model
             'min_bet' =>$min_bet,
             'max_bet' =>$max_bet,
             'players' =>json_encode($players),
-            ]);
+        ]);
 
         return $data;
     }

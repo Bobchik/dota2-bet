@@ -49,7 +49,6 @@ class CheckoutController extends Controller
         $extras = [];
 
         $response = $payment->test()->create($extras);
-//        dd($response);
 
     }
 

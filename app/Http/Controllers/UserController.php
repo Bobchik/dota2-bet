@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game;
+use App\Report;
 use App\Service;
 use App\Stat;
 use App\Steam;
@@ -16,68 +17,38 @@ class UserController extends Controller
     public function index()
     {
         $user_info = auth()->user();
-
-        $services  = Service::all();
-        $games     = Game::all()->where('service_id', 1);
-
-        return view('personal.index', compact('user_info', 'services', 'games'));
-    }
-
-    public function games() {
-        return view('personal.games');
-    }
-
-    public function get($id){
-
-        if (strlen($id) > 10){
-            $user_info = User::where('player_id', $id)->first();
-        } else {
-            $user_info = User::find($id);
-        }
-
-        $services  = Service::all();
-        $games     = Game::all()->where('service_id', 1);
+        $games = Game::all_games();
+        $services = Service::all_services();
 
         return view('personal.index', compact('user_info', 'services', 'games'));
     }
 
-    public function rate()
+    public function show($id)
     {
-        $player_id = auth()->user()->player_id;
-        $player_id32 = Steam::toSteamID($player_id);
+        $user_info = User::player_id($id);
 
-        Stat::getSteamTime();
-
-        $steam_data = file_get_contents(
-            'https://api.opendota.com/api/players/' . $player_id32
-        );
-        $arr = json_decode($steam_data, 1);
-        if ($arr['solo_competitive_rank'] !== null) {
-            request()->user()->update(
-                ['rate' => $arr['solo_competitive_rank']]
-            );
-        } elseif(!empty($arr['mmr_estimate']['estimate'])) {
-            request()->user()->update(
-                ['rate' => $arr['mmr_estimate']['estimate']]
-            );
-        } else {
-            return redirect('/profile/' . auth()->user()->id);
-        }
-
-        return redirect('/profile/' . auth()->user()->id);
+        return view('personal.show', compact('user_info'));
     }
 
-    public function report()
+    public function update()
     {
-        if (strlen(request()->id) > 10){
-            $user = User::where('player_id', request()->id)->first();
-        } else {
-            $user = User::find(request()->id);
-        }
+        User::get_mmr();
+        Stat::getSteamTime(auth()->user()->player_id);
 
-        $user->morality = $user->morality - request()->value;
+        return back();
+    }
+
+    public function report_user($id)
+    {
+        $auth_user = auth()->user()->id;
+        $check = Report::check_reporter($auth_user, $id);
+        if ($check) {
+            return back()->with('error', $check->getContent());
+        }
+        $user = User::find($id);
+        $user->morality = $user->morality - 1;
         $user->save();
 
-        return response('User account has been reported!', '200');
+        return back()->with('response', 'User has been reported!');
     }
 }

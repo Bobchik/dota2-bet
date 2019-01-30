@@ -20,4 +20,9 @@ class Game extends Model
         return $this->hasOne(Service::class);
     }
 
+    public static function all_games()
+    {
+        return self::all()->where('service_id', 1);
+    }
+
 }

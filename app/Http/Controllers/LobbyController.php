@@ -214,19 +214,19 @@ class LobbyController extends Controller
 //                ]);
 //
 //            Cache::forget($game_id);
-            $rootDir = $_SERVER['DOCUMENT_ROOT'];
+        $rootDir = $_SERVER['DOCUMENT_ROOT'];
 
-            $bot_path = "cd "
-                . "js/node-dota2/examples/bot1 "
-		. "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
+        $bot_path = "cd "
+            . "js/node-dota2/examples/bot1 "
+            . "&& node start.js >> $rootDir/js/node-dota2/examples/bot1/games/$game_id/$game_id.log &";
 
-		$descriptorspec = array(
-   		0 => array("pipe", "r"),
-   		1 => array("pipe", "w")
-    		);
+        $descriptorspec = array(
+            0 => array("pipe", "r"),
+            1 => array("pipe", "w")
+        );
 
-	        proc_open($bot_path, $descriptorspec, $pipes);
-		//exec($bot_path, $out, $err);
+        proc_open($bot_path, $descriptorspec, $pipes);
+        //exec($bot_path, $out, $err);
         return view('lobby.start', compact('game_id', 'radiant', 'dire','bank'));
 
     }
@@ -290,7 +290,7 @@ class LobbyController extends Controller
                     $userStat = Stat::find($player['uid'])?:Stat::create(['user_id' => $player['uid']]);
                     DB::table('stats')->where('user_id', $player['uid'])->
                     update(['total_games' => DB::raw('total_games + 1'), 'win_games' => DB::raw('win_games + 1'),
-                            'bet_win' => DB::raw("bet_win + $award")]);
+                        'bet_win' => DB::raw("bet_win + $award")]);
                     DB::table('users')->where('player_id', $player['uid'])->
                     update(['coins'=> (request()->user()->where('player_id', $player['uid'])->value('coins') + $player['bet'] + $award)]);
                 }
@@ -300,7 +300,7 @@ class LobbyController extends Controller
                     $userStat = Stat::find($player['uid'])?:Stat::create(['user_id' => $player['uid']]);
                     DB::table('stats')->where('user_id', $player['uid'])->
                     update(['total_games' => DB::raw('total_games + 1'), 'lose_games' => DB::raw('lose_games + 1'),
-                            'bet_lose' => DB::raw("bet_lose +" . $player['bet'])]);
+                        'bet_lose' => DB::raw("bet_lose +" . $player['bet'])]);
                 }
 
             }
@@ -311,7 +311,7 @@ class LobbyController extends Controller
                     $userStat = Stat::find($player['uid'])?:Stat::create(['user_id' => $player['uid']]);
                     DB::table('stats')->where('user_id', $player['uid'])->
                     update(['total_games' => DB::raw('total_games + 1'), 'lose_games' => DB::raw('lose_games + 1'),
-                            'bet_lose' => DB::raw("bet_lose +" .$player['bet'])]);
+                        'bet_lose' => DB::raw("bet_lose +" .$player['bet'])]);
                 }
             }
             foreach ($dire as $key => $player) {
@@ -320,7 +320,7 @@ class LobbyController extends Controller
                     $userStat = Stat::find($player['uid'])?:Stat::create(['user_id' => $player['uid']]);
                     DB::table('stats')->where('user_id', $player['uid'])->
                     update(['total_games' => DB::raw('total_games + 1'), 'win_games' => DB::raw('win_games + 1'),
-                            'bet_win' => DB::raw("bet_win + $award")]);
+                        'bet_win' => DB::raw("bet_win + $award")]);
                     DB::table('users')->where('player_id', $player['uid'])->
                     update(['coins'=> (request()->user()->where('player_id', $player['uid'])->value('coins') + ($player['bet'] + $award))]);
                 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Stat;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Invisnik\LaravelSteamAuth\SteamAuth;
+//use Exception;
 use Auth;
 
 class SteamAuthController extends Controller
@@ -48,20 +51,19 @@ class SteamAuthController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function handle(Request $request)
+    public function handle()
     {
         if ($this->steam->validate()) {
             $info = $this->steam->getUserInfo();
-            try {
-                $request->user()->update(['player_id' => $info->steamID64]);
-                Stat::updateOrCreate([
-                    'user_id' => $info->steamID64
-                ]);
-                } catch (\Exception $e) {
-                return redirect($this->redirectURL)->with('errors', 'User with this player_id already registered');
+            if (!is_null($info)) {
+                $user = User::where('player_id', $info->steamID64)->first();
+                if (!is_null($user)) {
+                    return view('errors.500')->with('error', 'User with this player_id already registered');
+                } else {
+                    request()->user()->update(['player_id' => $info->steamID64]);
+                    return redirect($this->redirectURL); // redirect to site
+                }
             }
-
-            return redirect($this->redirectURL); // redirect to site
         }
         return $this->redirectToSteam();
     }

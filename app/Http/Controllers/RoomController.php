@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class RoomController extends Controller
 {
     public function index()
-    {   
+    {
         return view('rooms.index2');
     }
 
@@ -21,8 +21,7 @@ class RoomController extends Controller
         return view('rooms.create', compact(['id_player']));
     }
 
-    // создание лобби перенести в лобби контролер
-    // получаем данные из формы и создаём лобби
+
     public function set(Request $request)
     {
         $lobby = Room::newRoom($request);
@@ -61,11 +60,11 @@ class RoomController extends Controller
     {
 
         /*$players = cache($game_id) ?: Room::newLobby();
-        for ($i=1; $i <= 10 ; $i++) { 
+        for ($i=1; $i <= 10 ; $i++) {
             $players[$i] = 0;
         }*/
         $players = Room::lobbyPlayers();
-        
+
         for ($i = 1; $i <= 5; $i++) {
             $radiant[$i] = $players[$i];
         }
@@ -108,7 +107,7 @@ class RoomController extends Controller
         }
         $content .= '];module.exports.id = id;';
 
-       //return redirect()->action('RoomController@get',['game_id' => $game_id]);
+        //return redirect()->action('RoomController@get',['game_id' => $game_id]);
     }
-        
+
 }
