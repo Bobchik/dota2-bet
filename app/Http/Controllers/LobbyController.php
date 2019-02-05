@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Stat;
 use App\User;
+use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -121,23 +122,6 @@ class LobbyController extends Controller
         return redirect()->action('RoomController@index');
     }
 
-    public function all($game_id){
-        $lobby = cache($game_id);
-        $users = User::all('player_id')->toArray();
-        $players = Lobby::getPlayers($game_id);
-
-//        dd($users);
-        for ($i=1; $i < 11; $i++) {
-            $players[$i]['uid'] = $users[$i-1]['player_id'];
-            $players[$i]['bet'] = 2;
-        }
-        $lobby[$game_id]['players'] = json_encode($players);
-        $lobby[$game_id]['bank'] = 20;
-        Cache::forever($game_id,$lobby);
-        return back();
-
-    }
-
     public function setId($game_id)
     {
 //        Cache::forget('status_'.$game_id);
@@ -195,26 +179,7 @@ class LobbyController extends Controller
 
         $lobby->winners = Room::IN_PROCESS;
         $lobby->save();
-        dd();
-//        $allRooms = cache($rank);
-//            $game = array_search($game_id, $allRooms);
-//
-//            if((int)$game >= 0){
-//                unset($allRooms[$game]);
-//            }
-//
-//            Cache::forever($lobby[$game_id]['rank'], $allRooms);
-//
-//            DB::table('rooms')->insert(
-//                ['id' => key($lobby),
-//                 'rank' => $lobby[$game_id]['rank'],
-//                 'bank' => $lobby[$game_id]['bank'],
-//                 'min_bet' => $lobby[$game_id]['min_bet'],
-//                 'max_bet' => $lobby[$game_id]['max_bet'],
-//                 'players' => $lobby[$game_id]['players'],
-//                ]);
-//
-//            Cache::forget($game_id);
+
         $rootDir = $_SERVER['DOCUMENT_ROOT'];
 
         $bot_path = "cd "
@@ -234,20 +199,9 @@ class LobbyController extends Controller
 
     public function res($game_id)
     {
-
-        /*
-            Полуучем результат игры из файла
-            от бота по ид комнаты.
-            Записываем результат в БД.
-        */
-        //$game_id ='20180513141046';
         $result = Lobby::checkDir($game_id);
-        //$str = file_get_contents($result);
         $str = file($result, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        // $arr = explode(' ', $str);
-        /*        for ($i=0; $i < count($arr); $i++) {
-                    $log[current($arr)] = next($arr);
-                }*/
+
         foreach ($str as $key => $value) {
             $arr = explode(' ', $value);
             if(current($arr) == "match_outcome"){
@@ -256,8 +210,6 @@ class LobbyController extends Controller
             }else
                 $log['match_outcome'] = 1;
         }
-        //dd($log['match_outcome']);
-        //dd($arr);
         DB::table('rooms')->where('id', $game_id)->update(['winners' => $log['match_outcome']]);
         //сохраняем отдельно файлик с ид пользователей
 //        Storage::disk('bot')->move('players.js', 'game/'.$game_id.'players.js');

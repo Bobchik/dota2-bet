@@ -12,7 +12,6 @@ Route::group(['middleware' => ['web']], function () {
     })->middleware('guest');
 
     Auth::routes();
-        
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/new_room', 'RoomController@create');
         Route::post('/new_room/set', 'RoomController@set');
@@ -52,5 +51,6 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/rooms/lobby/{game_id}/bet/{bet}', 'LobbyController@bet');
         Route::get('/rooms/lobby/{game_id}/start', 'LobbyController@start');
         Route::get('rooms/lobby/{game_id}/results', 'LobbyController@res');
+        Route::post('rooms/lobby/{game_id}/results', 'LobbyController@res');
     });
 });

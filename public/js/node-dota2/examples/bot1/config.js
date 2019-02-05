@@ -5,9 +5,11 @@
 // After successfully logging in, return steamguard code to ""
 var config = {};
 
-config.steam_name = "workspace1936";
-config.steam_user = "bobchik9911";
-config.steam_pass = "Papa3929318";
+config.steam_name = "SallyOne";
+// config.steam_user = "bobchik9911";
+// config.steam_pass = "Papa3929318";
+config.steam_user = "6orik907";
+config.steam_pass = "Innusa9303";
 config.steam_guard_code = "";
 
 module.exports = config;

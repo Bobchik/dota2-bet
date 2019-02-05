@@ -2,7 +2,7 @@ var steam = require("steam"),
     util = require("util"),
     fs = require("fs"),
     crypto = require("crypto"),
-    dota2 = require("../../"),
+    dota2 = require("dota2"),
     steamClient = new steam.SteamClient(),
     steamUser = new steam.SteamUser(steamClient),
     steamFriends = new steam.SteamFriends(steamClient),
@@ -12,7 +12,6 @@ global.config = require("./config");
 
 var players = require('./players');
 console.log (players);
-throw "stop"; // скрипт дальше не должен выполняться.
 
 var onSteamLogOn = function onSteamLogOn(logonResp) {
     if (logonResp.eresult == steam.EResult.OK) {
