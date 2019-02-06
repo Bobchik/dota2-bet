@@ -120,40 +120,10 @@ class LobbyController extends Controller
         return redirect()->action('RoomController@index');
     }
 
-    public function setId($game_id)
-    {
-//        Cache::forget('status_'.$game_id);
-        $lobby = [];
-        $lobby = cache('status_'.$game_id);
-
-        $lobby[] += request()->place_id;
-        $players = array($game_id => $lobby);
-
-        if (count($players[$game_id]) >= 11) {
-//            return redirect()->action('LobbyController@start', ['game_id' => $game_id]);
-//            Cache::forget('status_'.$game_id);
-//            return json_encode($players);
-        } else {
-            Cache::forever('status_' . $game_id, $lobby);
-//             dd(cache('status_'.$game_id));
-
-            return back();
-        }
-    }
-
-    public function getIds()
-    {
-        $url = parse_url(url()->current());
-        $game_id = explode('/', $url['path']);
-        $lobby = cache('status_'.$game_id[3]);
-        return $lobby;
-    }
-
     public function start($game_id)
     {
         $lobby = Room::find($game_id);
         $bank = $lobby->bank;
-        $rank = $lobby->rank;
 
         $players = Lobby::getPlayers($game_id);
         $players = array_chunk($players, count($players)/2, true);
@@ -170,7 +140,6 @@ class LobbyController extends Controller
             $content .= '[\''.$value['uid'] . '\',' . "'D'],";
         }
         $content .= "['$game_id']];module.exports.id = id;";
-
         Storage::disk('bot')->makeDirectory("bot1/games/$game_id");
         Storage::disk('bot')->put("bot1/games/$game_id/$game_id.log", $game_id);
         Storage::disk('bot')->put("bot1/players.js", $content);
@@ -211,8 +180,6 @@ class LobbyController extends Controller
         }
 
         DB::table('rooms')->where('id', $game_id)->update(['winners' => $log['match_outcome']]);
-        //сохраняем отдельно файлик с ид пользователей
-//        Storage::disk('bot')->move('players.js', 'game/'.$game_id.'players.js');
         /*
             Получаем пользователей из БД
             для расспределения выиграша

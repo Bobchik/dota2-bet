@@ -24,7 +24,6 @@ class RoomController extends Controller
     {
         $lobby = Room::newRoom($request);
         $game_id = strval(key($lobby));
-        Cache::forever($game_id,$lobby);
         return redirect()->action('LobbyController@index', ['game_id' => $game_id]);
     }
 
