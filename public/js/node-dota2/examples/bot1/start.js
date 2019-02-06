@@ -43,15 +43,40 @@ for (var [key, value] of store.entries()) {
             var lobbyChannel = "";
                 var lobby = null;
         
+        /*enum DOTA_GameMode {
+            DOTA_GAMEMODE_NONE = 0;
+            DOTA_GAMEMODE_AP = 1;
+            DOTA_GAMEMODE_CM = 2;
+            DOTA_GAMEMODE_RD = 3;
+            DOTA_GAMEMODE_SD = 4;
+            DOTA_GAMEMODE_AR = 5;
+            DOTA_GAMEMODE_INTRO = 6;
+            DOTA_GAMEMODE_HW = 7;
+            DOTA_GAMEMODE_REVERSE_CM = 8;
+            DOTA_GAMEMODE_XMAS = 9;
+            DOTA_GAMEMODE_TUTORIAL = 10;
+            DOTA_GAMEMODE_MO = 11;
+            DOTA_GAMEMODE_LP = 12;
+            DOTA_GAMEMODE_POOL1 = 13;
+            DOTA_GAMEMODE_FH = 14;
+            DOTA_GAMEMODE_CUSTOM = 15;
+            DOTA_GAMEMODE_CD = 16;
+            DOTA_GAMEMODE_BD = 17;
+            DOTA_GAMEMODE_ABILITY_DRAFT = 18;
+            DOTA_GAMEMODE_EVENT = 19;
+            DOTA_GAMEMODE_ARDM = 20;
+            DOTA_GAMEMODE_1V1MID = 21;
+            DOTA_GAMEMODE_ALL_DRAFT = 22;
+            }*/
     if(creatingLobby == 1)
         { // sets only password, nothing more
             var properties = {
                 "game_name": "tghbcvf335g",
                 "server_region": dota2.ServerRegion.UNSPECIFIED,
-                "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_1V1MID,
+                "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_AP,
                 "series_type": 0,
                 // "game_version": 1,
-                "allow_cheats": true,
+                "allow_cheats": false,
                 "fill_with_bots": true,
                 "allow_spectating": true,
                 "pass_key": "ap",
