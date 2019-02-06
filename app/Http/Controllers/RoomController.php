@@ -11,7 +11,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        return view('rooms.index2');
+        return view('rooms.index');
     }
 
     public function create()
@@ -30,7 +30,7 @@ class RoomController extends Controller
 
     public function all($rank)
     {
-        $lobbies = Room::all()->where('winners',Room::FREE_ROOM);
+        $lobbies = Room::where('winners', Room::FREE_ROOM)->where('rank', $rank)->get();
         $inRoom = [];
         foreach ($lobbies as $lobby) {
             $players = json_decode($lobby->players, true);
@@ -48,64 +48,4 @@ class RoomController extends Controller
             'rank' => $rank,
             'inRoom' => $inRoom]);
     }
-
-    /*
-        Получаем всех игроков в комнате.
-        Если никого нет, создаём лобби.
-    */
-    // чо это за метод
-    public function get($game_id)
-    {
-
-        /*$players = cache($game_id) ?: Room::newLobby();
-        for ($i=1; $i <= 10 ; $i++) {
-            $players[$i] = 0;
-        }*/
-        $players = Room::lobbyPlayers();
-
-        for ($i = 1; $i <= 5; $i++) {
-            $radiant[$i] = $players[$i];
-        }
-        for ($i = 6; $i <= 10; $i++) {
-            $dire[$i] = $players[$i];
-        }
-
-        return view('rooms.get', compact(['dire', 'radiant','game_id']));
-    }
-
-    /*
-        Смена места игрока в лобби
-    */
-    // чо это за метод
-    public function put($game_id,$place_id)
-    {
-        $players = cache($game_id) ?: Room::lobbyPlayers();
-        $steam_id = auth()->user()->player_id;
-        if (in_array($steam_id, $players)) {
-            $key = array_search($steam_id, $players);
-            $players[$key] = 0;
-        }
-        $players[$place_id] = $steam_id;
-
-        Cache::forever($game_id,$players);
-
-        return redirect()->action('LobbyController@index', ['game_id' => $game_id]);
-    }
-    // чо это за метод
-    public function start($game_id)
-    {
-        $content = 'var id = [';
-        $players = cache($game_id);
-
-        for ($i = 1; $i < 6; $i++) {
-            $content .= "['$players[$i]'" . ',' . "'R'],";
-        }
-        for ($i = 6; $i < 11; $i++) {
-            $content .= "['$players[$i]'" . ',' . "'D'],";
-        }
-        $content .= '];module.exports.id = id;';
-
-        //return redirect()->action('RoomController@get',['game_id' => $game_id]);
-    }
-
 }

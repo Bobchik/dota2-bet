@@ -169,7 +169,7 @@
 
             var timerId = setTimeout(function tick() {
                 $.get(window.location.pathname + '/get', function (response) {
-                    if (response.length >= 10) {
+                    if (response.length >= 1) {
                         clearTimeout(timerId);
                         document.getElementById('change').setAttribute("style", "visibility: visible");
                         setTimeout(function () {

@@ -205,9 +205,11 @@ class LobbyController extends Controller
             if(current($arr) == "match_outcome"){
                 $log[current($arr)] = next($arr);
                 break;
-            }else
-                $log['match_outcome'] = 1;
+            } else {
+                $log['match_outcome'] = Room::IN_PROCESS;
+            }
         }
+
         DB::table('rooms')->where('id', $game_id)->update(['winners' => $log['match_outcome']]);
         //сохраняем отдельно файлик с ид пользователей
 //        Storage::disk('bot')->move('players.js', 'game/'.$game_id.'players.js');

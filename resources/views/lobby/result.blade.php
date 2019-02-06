@@ -5,8 +5,10 @@
         <div class="row">
             @if($winners && $winners == 2)
                 <h3 class="text-center">{{'Radiant win'}}</h3>
-            @else
+            @elseif($winners && $winners == 3)
                 <h3 class="text-center">{{'Dire win'}}</h3>
+                @else
+                <h3 class="text-center">{{'Match is still on'}}</h3>
             @endif
         </div>
     </div>
