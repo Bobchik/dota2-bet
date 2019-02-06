@@ -13,8 +13,6 @@ Route::group(['middleware' => ['web']], function () {
 
     Auth::routes();
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('/new_room', 'RoomController@create');
-        Route::post('/new_room/set', 'RoomController@set');
         Route::get('/profile', 'UserController@index')->name('profile');
         Route::get('/profile/{id}', 'UserController@show')->name('profile.show');
         Route::get('/profile/{id}/report', 'UserController@report_user')->name('profile.report');
@@ -39,6 +37,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/rooms', 'RoomController@index');
         Route::get('/rooms/list/{rank}', 'RoomController@all');
     Route::group(['middleware' => ['bet']], function () {
+        Route::get('/new_room', 'RoomController@create');
+        Route::post('/new_room/set', 'RoomController@set');
         Route::get('/rooms/lobby/exit', 'LobbyController@leave');
         Route::get('/rooms/lobby/{game_id}', 'LobbyController@index');
         Route::get('/rooms/lobby/{game_id}/get', 'LobbyController@getIds');

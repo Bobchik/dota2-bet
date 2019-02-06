@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -12,8 +11,7 @@ class Room extends Model
 
     public static $dir = '../storage/app/public/';
     public static $fullPath;
-    protected $fillable
-        = ['id', 'rank', 'bank', 'min_bet', 'max_bet', 'players'];
+    protected $fillable = ['id', 'rank', 'bank', 'min_bet', 'max_bet', 'players'];
     public $timestamps = false;
 
     const FREE_ROOM = 0;
@@ -34,8 +32,6 @@ class Room extends Model
             $players[$i] = ['uid' => 0, 'bet' => 0, 'mmr' => 0, 'rank' => 0];
         }
 
-        /*Storage::append('/public/'.$fileName, $str);*/
-
         return $players;
     }
 
@@ -53,14 +49,7 @@ class Room extends Model
         Cache::forever('newbie', $newbie);
     }
 
-    /*    public static function get($game_id, $key)
-        {
-            $newbie = cache($game_id);
-
-            return $newbie[$game_id][$key];
-        }*/
-
-    //вместо кэша записывать это всё в базу
+    //записываем это всё в базу
     public static function newRoom($request)
     {
         $totalPlayers = $request->get('players');
@@ -102,24 +91,6 @@ class Room extends Model
     */
     public static function lobbyList($rank)
     {
-        /*       $today = date("YmdGis");
-               //$fileName = $today. '_o';
-               $players = json_encode(self::lobbyPlayers());
-                      // $players = json_decode($players);
-               for ($i = 1; $i <= 10; $i++) {
-                   $lobbies[$today+$i] = ['rank' => $rank, 'bank' => 0, 'min_bet' => 0, 'max_bet' => 0, 'players' => $players];
-                   DB::table('rooms')->insert(
-                       ['id' =>$today+$i,
-                        'rank' =>$lobbies[$today+$i]['rank'],
-                        'bank' =>$lobbies[$today+$i]['bank'],
-                        'min_bet' =>$lobbies[$today+$i]['min_bet'],
-                        'max_bet' =>$lobbies[$today+$i]['max_bet'],
-                        'players' =>$lobbies[$today+$i]['players'],
-                       ]);
-                }
-                $lobbies = DB::table('rooms')->get();
-                dd($lobbies);*/
-        //$lobby = $newbie->where('id', $game_id)->toArray();
         if (Cache::has($rank)) {
             $data = cache($rank);
         } else {

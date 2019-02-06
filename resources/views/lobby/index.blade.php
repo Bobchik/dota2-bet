@@ -169,12 +169,12 @@
 
             var timerId = setTimeout(function tick() {
                 $.get(window.location.pathname + '/get', function (response) {
-                    if (response.length >= 1) {
+                    if (response.length >= 10) {
                         clearTimeout(timerId);
                         document.getElementById('change').setAttribute("style", "visibility: visible");
                         setTimeout(function () {
                             window.location.href = window.location.pathname + '/start';
-                        }, 10000);
+                        }, 4000);
                     }
                 });
                 timerId = setTimeout(tick, 4000);

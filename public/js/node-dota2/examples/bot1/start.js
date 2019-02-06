@@ -48,7 +48,7 @@ for (var [key, value] of store.entries()) {
             var properties = {
                 "game_name": "tghbcvf335g",
                 "server_region": dota2.ServerRegion.UNSPECIFIED,
-                "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_1V1MID,
+                "game_mode": dota2.schema.lookupEnum('DOTA_GameMode').values.DOTA_GAMEMODE_AP,
                 "series_type": 0,
                 // "game_version": 1,
                 "allow_cheats": true,

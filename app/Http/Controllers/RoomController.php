@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Room;
 use Illuminate\Http\Request;
 use Auth;
-use Illuminate\Support\Facades\Cache;
 
 class RoomController extends Controller
 {
@@ -24,7 +23,6 @@ class RoomController extends Controller
     {
         $lobby = Room::newRoom($request);
         $game_id = strval(key($lobby));
-        Cache::forever($game_id,$lobby);
         return redirect()->action('LobbyController@index', ['game_id' => $game_id]);
     }
 

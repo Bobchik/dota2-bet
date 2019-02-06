@@ -20,7 +20,7 @@ class LobbyPlace
     {   
         $url = url()->current();
         $url = parse_url($url);
-    }
+
         return $next($request);
     }
 }
