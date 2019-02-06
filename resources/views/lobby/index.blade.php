@@ -169,12 +169,12 @@
 
             var timerId = setTimeout(function tick() {
                 $.get(window.location.pathname + '/get', function (response) {
-                    if (response.length >= 10) {
+                    if (response.length >= 1) {
                         clearTimeout(timerId);
                         document.getElementById('change').setAttribute("style", "visibility: visible");
                         setTimeout(function () {
                             window.location.href = window.location.pathname + '/start';
-                        }, 4000);
+                        }, 10000);
                     }
                 });
                 timerId = setTimeout(tick, 4000);
@@ -182,8 +182,3 @@
         };
     </script>
 @endsection
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>--}}
-{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>--}}
-{{--<script src="/js/main.js"></script>--}}
-{{--<script type="text/javascript" src="https://js.stripe.com/v2/"></script>--}}
-{{--<script type="text/javascript" src="{{ url('/js/checkout.js') }}"></script>--}}
