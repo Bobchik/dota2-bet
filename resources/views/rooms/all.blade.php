@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layouts.app')
 @include('common.menu')
 

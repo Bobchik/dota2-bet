@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Room;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-
 use Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -52,7 +50,7 @@ class RoomController extends Controller
     }
 
     /*
-        Получаемвсех игроков в комнате.
+        Получаем всех игроков в комнате.
         Если никого нет, создаём лобби.
     */
     // чо это за метод

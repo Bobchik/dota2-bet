@@ -6,9 +6,6 @@ use App\Game;
 use App\Report;
 use App\Service;
 use App\Stat;
-use App\Steam;
-
-use App\Http\Requests;
 use App\User;
 use Auth;
 

@@ -36,9 +36,9 @@ class Stat extends Model
         {
             $login = $steam_login->login($data);
             if ($login['success'] === true) {
-                $file = file_get_contents($cookie_file . "/tmp/cookie_" . $player_id);
+                $file = file_get_contents(realpath($cookie_file) . "/tmp/cookie_" . $player_id);
                 $str = str_replace('store.steampowered.com', 'steamcommunity.com', $file);
-                file_put_contents($cookie_file . "/tmp/cookie_" . $player_id, $str);
+                file_put_contents(realpath($cookie_file) . "/tmp/cookie_" . $player_id, $str);
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'https://steamcommunity.com/profiles/' . $player_id . '/games/?tab=all');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

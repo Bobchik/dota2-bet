@@ -84,7 +84,7 @@ class SteamLogin
         );
         $this->geturl($this->login_url, null , 1,  $params, 0, $info, $output);
         $response = json_decode($output, true);
-        if ($data['captcha_needed'])
+        if (array_key_exists('captcha_needed', $data))
         {
             $captchaGid = $data['captcha_gid'];
 
